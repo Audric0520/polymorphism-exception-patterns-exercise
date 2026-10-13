@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Main {
     private static final ParcelManagementSystem pms = ParcelManagementSystem.getInstance();
 
@@ -32,7 +34,7 @@ public class Main {
         boolean duplicateExists = true;
         String trackingNumber = "";
         do {
-            trackingNumber = DataValidation.validateStringInput("Enter tracking Number: ");
+            trackingNumber = DataValidation.validateTrackingNumberInput();
             duplicateExists = pms.findDuplicateParcel(trackingNumber);
             if (duplicateExists) {
                 System.out.printf("Parcel with Tracking number %s already exists. Try Again\n", trackingNumber);
@@ -46,15 +48,32 @@ public class Main {
         };
         double weight = DataValidation.validateWeightInput("Enter weight in kg(max: " + maxWeight + "kg): ", maxWeight);
 
-        Parcel parcel; // placeholder until the user picks
+        Parcel parcel = new Document(null, null, 0, 0, null); // TODO REVIEW THIS
+        DeliveryService ds = new StandardDelivery(); // placeholder until the user picks
         if (parcelType == 1) {
             int pages = DataValidation.validateNumberChoiceInput("Number of pages (1-100): ", 1, 100);
-            parcel = new Document(trackingNumber, receiverName, weight, pages);
+            parcel = new Document(trackingNumber, receiverName, weight, pages, ds);
         }
+
+        DeliveryService service = DataValidation.validateDeliveryService();
+        parcel.setDeliveryService(service);
+        pms.addParcel(parcel);
+        System.out.println("Parcel Added Successfully.");// TODO ADJUST MESSAGE BASED ON WHAT WAS ASKED
     }
 
-    public static void viewAllParcels() {
-
+    public static void viewAllParcels() {// TODO IMPROVE DISPLAY
+        ArrayList<Parcel> parcels = pms.getAllParcels();
+        System.out.printf("%-20s %-20s %-20s %-20s %-20s %-20s %-20s\n", "TRACKING NUMBER", "PARCEL TYPE",
+                "NAME OF RECEIVER", "CHARGABLE WEIGHT", "SERVICE", "DELIVERY FEE", "STATUS");
+        for (Parcel parcel : parcels) {
+            System.out.println(parcel.getTrackingNumber());
+            System.out.println(parcel.getType());
+            System.out.println(parcel.getReceiverName());
+            System.out.println(parcel.getChargeableWeight());
+            System.out.println(parcel.getDeliveryService().getName());
+            System.out.println(parcel.getDeliveryFee());
+            System.out.println(parcel.getStatus().toString());
+        }
     }
 
     public static void changeDeliveryService() {

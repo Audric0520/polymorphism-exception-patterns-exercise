@@ -108,53 +108,32 @@ public class DataValidation {
         return category.toLowerCase();
     }
 
-    /*
-     * public static String validateIDInput(String category) {
-     * String prefix = getCategoryPrefix(category);
-     * System.out.
-     * printf("ID format: '%s' followed by 6 numbers (e.g. %s123456, %s122526)\n",
-     * prefix, prefix,
-     * prefix.toLowerCase());
-     * boolean isRunning = true;
-     * String id = "";
-     * while (isRunning) {
-     * id = validateStringInput("Input ID: ");
-     * if (!id.matches("(?i)" + prefix + "\\d{6}")) {
-     * System.out.printf(
-     * "Invalid ID Input. ID must be '%s' followed by 6 numbers (e.g. %s052007, %s092702). Try Again.\n"
-     * ,
-     * prefix, prefix, prefix.toLowerCase());
-     * continue;
-     * }
-     * isRunning = false;
-     * }
-     * return id.toUpperCase();
-     * }
-     */
-    public static int validateQuantityInput(String prompt, boolean forUpdating) {
+    public static String validateTrackingNumberInput() {
+        System.out.println("Tracking Number format: 'ABC' followed by 4 numbers (e.g. ABC0001)");
         boolean isRunning = true;
-        int number = 0;
+        String trackingNumber = "";
         while (isRunning) {
-            number = validateIntInput(prompt);
-            if (forUpdating && (number < 0 || number > 1000)) {
-                System.out.println("Invalid Quantity Input. Quantity must be between 0 - 1000. Try Again.");
-                continue;
-            } else if (!forUpdating && (number <= 0 || number > 1000)) {
-                System.out.println("Invalid Quantity Input. Quantity must be between 1 - 1000. Try Again.");
+            trackingNumber = validateStringInput("Input Tracking Number: ");
+            if (!trackingNumber.matches("^ABC\\d{4}$")) {
+                System.out.println(
+                        "Invalid ID Input. Tracking Number must be 'ABC' followed by 4 numbers (e.g. ABC0927, ABC0520). Try Again.");
                 continue;
             }
             isRunning = false;
         }
-        return number;
+        return trackingNumber.toUpperCase();
     }
 
-    public static String validateFieldChoice(String prompt) {
-        int choice = validateNumberChoiceInput(prompt, 1, 2);
-        return (choice == 1) ? "quantity" : "price";
-    }
-
-    public static boolean validateSortOrderChoice(String prompt) {
-        int choice = validateNumberChoiceInput(prompt, 1, 2);
-        return choice == 1;
+    public static DeliveryService validateDeliveryService() {
+        System.out.println("Delivery services:");
+        System.out.println("1. Standard");
+        System.out.println("2. Express");
+        System.out.println("3. Same Day");
+        int choice = DataValidation.validateNumberChoiceInput("Select Delivery Service(1-3): ", 1, 3);
+        return switch (choice) {
+            case 1 -> new StandardDelivery();
+            case 2 -> new ExpressDelivery();
+            default -> new SameDayDelivery();
+        };
     }
 }

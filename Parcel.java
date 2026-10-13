@@ -30,6 +30,18 @@ public abstract class Parcel {
         return status;
     }
 
+    public double getDeliveryFee() {
+        return deliveryService.computeFee(getBaseFee());
+    }
+
+    public DeliveryService getDeliveryService() {
+        return deliveryService;
+    }
+
+    public void setDeliveryService(DeliveryService deliveryService) {
+        this.deliveryService = deliveryService;
+    }
+
     public abstract String getType();
 
     public abstract double getChargeableWeight();
