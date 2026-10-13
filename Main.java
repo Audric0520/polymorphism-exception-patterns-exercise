@@ -44,6 +44,7 @@ public class Main {
 
         double maxWeight = switch (parcelType) {// TODO ADD NEW MAX WEIGHT
             case 1 -> Document.MAX_WEIGHT;
+            case 2 -> Box.MAX_WEIGHT;
             default -> 10;
         };
         double weight = DataValidation.validateWeightInput("Enter weight in kg(max: " + maxWeight + "kg): ", maxWeight);
@@ -53,6 +54,11 @@ public class Main {
         if (parcelType == 1) {
             int pages = DataValidation.validateNumberChoiceInput("Number of pages (1-100): ", 1, 100);
             parcel = new Document(trackingNumber, receiverName, weight, pages, ds);
+        } else if (parcelType == 2) { // TODO MAKE SURE THAT IT DOES NOT ACCEPT 0 AS DIMENSIONS
+            int length = DataValidation.validateMeasurmentInput("Enter Length: ", "length");
+            int width = DataValidation.validateMeasurmentInput("Enter Width: ", "width");
+            int heigth = DataValidation.validateMeasurmentInput("Enter Height: ", "height");
+            parcel = new Box(trackingNumber, receiverName, weight, length, width, heigth, ds);
         }
 
         DeliveryService service = DataValidation.validateDeliveryService();
@@ -67,16 +73,26 @@ public class Main {
             System.out.println("There are no parcels to display.");
             return;
         }
+        String displayFormat = "%-20s %-20s %-20s %-20.2f %-20s %-20.2f %-20s\n";
         System.out.printf("%-20s %-20s %-20s %-20s %-20s %-20s %-20s\n", "TRACKING NUMBER", "PARCEL TYPE",
                 "NAME OF RECEIVER", "CHARGABLE WEIGHT", "SERVICE", "DELIVERY FEE", "STATUS");
         for (Parcel parcel : parcels) {
-            System.out.println(parcel.getTrackingNumber());
-            System.out.println(parcel.getType());
-            System.out.println(parcel.getReceiverName());
-            System.out.println(parcel.getChargeableWeight());
-            System.out.println(parcel.getDeliveryService().getName());
-            System.out.println(parcel.getDeliveryFee());
-            System.out.println(parcel.getStatus().toString());
+            String receiverName = parcel.getReceiverName();
+            if (receiverName.length() > 20) {
+                receiverName = receiverName.substring(0, 17) + "...";
+            }
+            System.out.printf(displayFormat, parcel.getTrackingNumber(), parcel.getType(), receiverName,
+                    parcel.getChargeableWeight(), parcel.getDeliveryService().getName(), parcel.getDeliveryFee(),
+                    parcel.getStatus().toString());
+            /*
+             * System.out.println(parcel.getTrackingNumber());
+             * System.out.println(parcel.getType());
+             * System.out.println(parcel.getReceiverName());
+             * System.out.println(parcel.getChargeableWeight());
+             * System.out.println(parcel.getDeliveryService().getName());
+             * System.out.println(parcel.getDeliveryFee());
+             * System.out.println(parcel.getStatus().toString());
+             */
         }
     }
 
@@ -86,6 +102,18 @@ public class Main {
             System.out.println("There are no parcels to change delivery service.");
             return;
         }
+        String trackingNumber = DataValidation.validateTrackingNumberInput();
+        Parcel specificParcel = pms.findSpecificParcel(trackingNumber);
+
+        if (specificParcel == null) {
+            System.out.println("Parcel not found!");
+            return;
+        }
+        if (specificParcel.isDelivered()) {
+            System.out.println("Parcel already delivered!");
+            return;
+        }
+        DeliveryService newService = DataValidation.validateDeliveryService();
     }
 
     public static void markAsDelivered() {

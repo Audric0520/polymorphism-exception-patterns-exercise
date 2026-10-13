@@ -93,7 +93,21 @@ public class DataValidation {
         return number;
     }
 
-    public static String validateCategoryInput(String prompt) {
+    public static int validateMeasurmentInput(String prompt, String typeOfMeasurement) {
+        boolean isRunning = true;
+        int measureNum = 0;
+        while (isRunning) {
+            measureNum = validateIntInput(prompt);
+            if (measureNum > 0 & measureNum <= 100) {
+                isRunning = false;
+            } else {
+                System.out.printf("Invalid %s input. Input should be between 1-100. Try Again.\n", typeOfMeasurement);
+            }
+        }
+        return measureNum;
+    }
+
+    public static String validateCategoryInput(String prompt) { // TODO DELETE LETER
         String category = "";
         boolean validCategory = false;
         do {
