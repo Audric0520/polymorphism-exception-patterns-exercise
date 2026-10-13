@@ -63,6 +63,10 @@ public class Main {
 
     public static void viewAllParcels() {// TODO IMPROVE DISPLAY
         ArrayList<Parcel> parcels = pms.getAllParcels();
+        if (parcels.isEmpty()) {
+            System.out.println("There are no parcels to display.");
+            return;
+        }
         System.out.printf("%-20s %-20s %-20s %-20s %-20s %-20s %-20s\n", "TRACKING NUMBER", "PARCEL TYPE",
                 "NAME OF RECEIVER", "CHARGABLE WEIGHT", "SERVICE", "DELIVERY FEE", "STATUS");
         for (Parcel parcel : parcels) {
@@ -77,10 +81,29 @@ public class Main {
     }
 
     public static void changeDeliveryService() {
-
+        ArrayList<Parcel> parcels = pms.getAllParcels();
+        if (parcels.isEmpty()) {
+            System.out.println("There are no parcels to change delivery service.");
+            return;
+        }
     }
 
     public static void markAsDelivered() {
+        ArrayList<Parcel> parcels = pms.getAllParcels();
+        if (parcels.isEmpty()) {
+            System.out.println("There are no parcels to mark as delivered.");
+            return;
+        }
+        String trackingNumber = DataValidation.validateTrackingNumberInput();
+        Parcel specificParcel = pms.findSpecificParcel(trackingNumber);
 
+        if (specificParcel == null) {
+            System.out.println("Parcel not found!");
+        } else if (specificParcel.isDelivered()) {
+            System.out.println("Parcel was already delivered.");
+        } else {
+            specificParcel.markAsDelivered();
+            System.out.println("Parcel delivered successfully!");
+        }
     }
 }

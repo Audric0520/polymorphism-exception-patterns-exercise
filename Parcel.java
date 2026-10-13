@@ -42,6 +42,14 @@ public abstract class Parcel {
         this.deliveryService = deliveryService;
     }
 
+    public boolean isDelivered() {
+        return status == Status.DELIVERED;
+    }
+
+    public void markAsDelivered() {
+        this.status = Status.DELIVERED;
+    }
+
     public abstract String getType();
 
     public abstract double getChargeableWeight();
