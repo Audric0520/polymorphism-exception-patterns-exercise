@@ -54,13 +54,13 @@ public class DataValidation {
         return stringInput;
     }
 
-    public static String validateNameInput(String prompt) {
+    public static String validateReceiverNameInput(String prompt) {
         boolean isRunning = true;
         String name = "";
         while (isRunning) {
-            name = Validators.validateStringInput(prompt);
-            if (!name.matches("^[a-zA-Z0-9 ]+$")) {
-                System.out.println("Invalid Name Input. Name must be alphanumeric(e.g. Colgate, PS5). Try Again.");
+            name = DataValidation.validateStringInput(prompt);
+            if (!name.matches("^[a-zA-Z ]+$")) {
+                System.out.println("Invalid ReceiverName Input. Name must only contains letters. Try Again.");
                 continue;
             } else {
                 isRunning = false;
@@ -97,7 +97,7 @@ public class DataValidation {
         String category = "";
         boolean validCategory = false;
         do {
-            category = Validators.validateStringInput(prompt);
+            category = DataValidation.validateStringInput(prompt);
             if (!(category.equalsIgnoreCase("clothing") || category.equalsIgnoreCase("electronics")
                     || category.equalsIgnoreCase("entertainment"))) {
                 System.out.printf("Category '%s' does not exist!\n", category);
@@ -108,25 +108,29 @@ public class DataValidation {
         return category.toLowerCase();
     }
 
-    public static String validateIDInput(String category) {
-        String prefix = getCategoryPrefix(category);
-        System.out.printf("ID format: '%s' followed by 6 numbers (e.g. %s123456, %s122526)\n", prefix, prefix,
-                prefix.toLowerCase());
-        boolean isRunning = true;
-        String id = "";
-        while (isRunning) {
-            id = validateStringInput("Input ID: ");
-            if (!id.matches("(?i)" + prefix + "\\d{6}")) {
-                System.out.printf(
-                        "Invalid ID Input. ID must be '%s' followed by 6 numbers (e.g. %s052007, %s092702). Try Again.\n",
-                        prefix, prefix, prefix.toLowerCase());
-                continue;
-            }
-            isRunning = false;
-        }
-        return id.toUpperCase();
-    }
-
+    /*
+     * public static String validateIDInput(String category) {
+     * String prefix = getCategoryPrefix(category);
+     * System.out.
+     * printf("ID format: '%s' followed by 6 numbers (e.g. %s123456, %s122526)\n",
+     * prefix, prefix,
+     * prefix.toLowerCase());
+     * boolean isRunning = true;
+     * String id = "";
+     * while (isRunning) {
+     * id = validateStringInput("Input ID: ");
+     * if (!id.matches("(?i)" + prefix + "\\d{6}")) {
+     * System.out.printf(
+     * "Invalid ID Input. ID must be '%s' followed by 6 numbers (e.g. %s052007, %s092702). Try Again.\n"
+     * ,
+     * prefix, prefix, prefix.toLowerCase());
+     * continue;
+     * }
+     * isRunning = false;
+     * }
+     * return id.toUpperCase();
+     * }
+     */
     public static int validateQuantityInput(String prompt, boolean forUpdating) {
         boolean isRunning = true;
         int number = 0;
