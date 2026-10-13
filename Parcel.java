@@ -1,14 +1,16 @@
 public abstract class Parcel {
     private String trackingNumber;
     private String receiverName;
-    private int weight;
+    private double weight;
     private Status status;
+    private DeliveryService deliveryService;
 
-    public Parcel(String trackingNumber, String receiverName, int weight) {
+    public Parcel(String trackingNumber, String receiverName, double weight, DeliveryService deliveryService) {
         this.trackingNumber = trackingNumber;
         this.receiverName = receiverName;
         this.weight = weight;
         this.status = status.PENDING;
+        this.deliveryService = deliveryService;
 
     }
 

@@ -4,8 +4,9 @@ public class Document extends Parcel {
 
     private int numOfPages;
 
-    public Document(String trackingNumber, String receiverName, int weight, int numOfPages) {
-        super(trackingNumber, receiverName, weight);
+    public Document(String trackingNumber, String receiverName, double weight, int numOfPages,
+            DeliveryService deliveryService) {
+        super(trackingNumber, receiverName, weight, deliveryService);
         this.numOfPages = numOfPages;
     }
 
