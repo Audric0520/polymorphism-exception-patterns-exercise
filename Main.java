@@ -13,7 +13,6 @@ public class Main {
             System.out.println("3. Change Delivery Service");
             System.out.println("4. Mark as Delivered");
             System.out.println("5. Exit Program");
-            System.out.print("Choice: ");
             int choice = DataValidation.validateNumberChoiceInput("Choice(1-5): ", 1, 5);
             switch (choice) {
                 case 1 -> addParcel();
@@ -60,11 +59,23 @@ public class Main {
             int heigth = DataValidation.validateMeasurmentInput("Enter Height: ", "height");
             parcel = new Box(trackingNumber, receiverName, weight, length, width, heigth, ds);
         }
+        boolean deliveryServiceIsAllowed;
 
-        DeliveryService service = DataValidation.validateDeliveryService();
-        parcel.setDeliveryService(service);
+        do {
+            ds = DataValidation.validateDeliveryService();
+            deliveryServiceIsAllowed = ds.isAllowed(parcel);
+
+            if (!deliveryServiceIsAllowed) {
+                System.out.println(ds.getRejectionMessage());
+            }
+        } while (!deliveryServiceIsAllowed);
+        parcel.setDeliveryService(ds);
         pms.addParcel(parcel);
-        System.out.println("Parcel Added Successfully.");// TODO ADJUST MESSAGE BASED ON WHAT WAS ASKED
+        System.out.printf("Parcel Added Successfully. Delivery Fee: Php %.2f\n", parcel.getDeliveryFee());// TODO ADJUST
+                                                                                                          // MESSAGE
+                                                                                                          // BASED
+                                                                                                          // ON WHAT WAS
+                                                                                                          // ASKED
     }
 
     public static void viewAllParcels() {// TODO IMPROVE DISPLAY
@@ -96,7 +107,7 @@ public class Main {
         }
     }
 
-    public static void changeDeliveryService() {
+    public static void changeDeliveryService() { // TODO REVIEW AND ADJUST
         ArrayList<Parcel> parcels = pms.getAllParcels();
         if (parcels.isEmpty()) {
             System.out.println("There are no parcels to change delivery service.");
@@ -113,7 +124,23 @@ public class Main {
             System.out.println("Parcel already delivered!");
             return;
         }
-        DeliveryService newService = DataValidation.validateDeliveryService();
+        DeliveryService newService;
+        boolean deliveryServiceIsAllowed = false;
+
+        do {
+            newService = DataValidation.validateDeliveryService();
+            if (newService.getClass() == specificParcel.getDeliveryService().getClass()) {
+                System.out.printf("Parcel already has a Delivery Service of %s. Choose again.\n",
+                        specificParcel.getDeliveryService().getName());
+                continue;
+            }
+            deliveryServiceIsAllowed = newService.isAllowed(specificParcel);
+
+            if (!deliveryServiceIsAllowed) {
+                System.out.println(newService.getRejectionMessage());
+            }
+        } while (!deliveryServiceIsAllowed);
+        specificParcel.setDeliveryService(newService);
     }
 
     public static void markAsDelivered() {
