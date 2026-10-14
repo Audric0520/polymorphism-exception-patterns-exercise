@@ -157,6 +157,7 @@ public class Main {
             }
         } while (!deliveryServiceIsAllowed);
         specificParcel.setDeliveryService(newService);
+        System.out.printf("Delivery service changed! New fee: Php %.2f\n", specificParcel.getDeliveryFee());
     }
 
     public static void markAsDelivered() {
