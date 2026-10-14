@@ -1,3 +1,7 @@
+package ParcelTypes;
+
+import DeliveryStrategy.DeliveryService;
+
 public class Document extends Parcel {
     public static final double MAX_WEIGHT = 0.5;
     public static final int BASE_FEE = 50;

@@ -1,3 +1,8 @@
+package ParcelTypes;
+
+import DeliveryStrategy.DeliveryService;
+import Utilities.DataValidation;
+
 public class Box extends Parcel {
     public static final double MAX_WEIGHT = 50.0;
     public static final double RATE_PER_KILO = 40.0;
@@ -9,7 +14,13 @@ public class Box extends Parcel {
 
     public Box(String trackingNumber, String receiverName, double weight, int length, int width, int height,
             DeliveryService deliveryService) {
-        super(trackingNumber, receiverName, weight, deliveryService);
+        this(trackingNumber, receiverName, weight, MAX_WEIGHT, length, width, height, deliveryService);
+    }
+
+    protected Box(String trackingNumber, String receiverName, double weight, double maxWeight,
+            int length, int width, int height, DeliveryService service) {
+        super(trackingNumber, receiverName, weight, service);
+
         this.length = length;
         this.width = width;
         this.height = height;

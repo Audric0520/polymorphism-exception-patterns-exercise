@@ -1,3 +1,8 @@
+package ParcelTypes;
+
+import DeliveryStrategy.DeliveryService;
+import Utilities.Status;
+
 public abstract class Parcel {
     private String trackingNumber;
     private String receiverName;

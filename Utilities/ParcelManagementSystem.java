@@ -1,4 +1,8 @@
+package Utilities;
+
 import java.util.ArrayList;
+
+import ParcelTypes.Parcel;
 
 public class ParcelManagementSystem {
     private static final ParcelManagementSystem INSTANCE = new ParcelManagementSystem();
@@ -17,12 +21,7 @@ public class ParcelManagementSystem {
     }
 
     public boolean findDuplicateParcel(String trackingNumber) {
-        for (Parcel parcel : parcels) {
-            if (parcel.getTrackingNumber().equalsIgnoreCase(trackingNumber)) {
-                return true;
-            }
-        }
-        return false;
+        return findSpecificParcel(trackingNumber) != null;
     }
 
     public Parcel findSpecificParcel(String trackingNumber) {

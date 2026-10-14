@@ -1,5 +1,14 @@
 import java.util.ArrayList;
 
+import DeliveryStrategy.DeliveryService;
+import DeliveryStrategy.StandardDelivery;
+import ParcelTypes.Box;
+import ParcelTypes.Document;
+import ParcelTypes.Fragile;
+import ParcelTypes.Parcel;
+import Utilities.DataValidation;
+import Utilities.ParcelManagementSystem;
+
 public class Main {
     private static final ParcelManagementSystem pms = ParcelManagementSystem.getInstance();
 
@@ -44,6 +53,7 @@ public class Main {
         double maxWeight = switch (parcelType) {// TODO ADD NEW MAX WEIGHT
             case 1 -> Document.MAX_WEIGHT;
             case 2 -> Box.MAX_WEIGHT;
+            case 3 -> Fragile.MAX_WEIGHT;
             default -> 10;
         };
         double weight = DataValidation.validateWeightInput("Enter weight in kg(max: " + maxWeight + "kg): ", maxWeight);
@@ -58,6 +68,12 @@ public class Main {
             int width = DataValidation.validateMeasurmentInput("Enter Width: ", "width");
             int heigth = DataValidation.validateMeasurmentInput("Enter Height: ", "height");
             parcel = new Box(trackingNumber, receiverName, weight, length, width, heigth, ds);
+        } else if (parcelType == 3) { // TODO MAKE SURE THAT IT DOES NOT ACCEPT 0 AS DIMENSIONS
+            int length = DataValidation.validateMeasurmentInput("Enter Length: ", "length");
+            int width = DataValidation.validateMeasurmentInput("Enter Width: ", "width");
+            int heigth = DataValidation.validateMeasurmentInput("Enter Height: ", "height");
+            String handlingNote = DataValidation.validateStringInput("Enter Handling Note: ");
+            parcel = new Fragile(trackingNumber, receiverName, weight, length, width, heigth, handlingNote, ds);
         }
         boolean deliveryServiceIsAllowed;
 
@@ -107,7 +123,7 @@ public class Main {
         }
     }
 
-    public static void changeDeliveryService() { // TODO REVIEW AND ADJUST
+    public static void changeDeliveryService() { // TODO REVIEW AND ADJUST OUTPUT DISPLAYS
         ArrayList<Parcel> parcels = pms.getAllParcels();
         if (parcels.isEmpty()) {
             System.out.println("There are no parcels to change delivery service.");

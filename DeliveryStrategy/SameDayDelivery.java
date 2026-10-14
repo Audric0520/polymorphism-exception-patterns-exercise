@@ -1,3 +1,7 @@
+package DeliveryStrategy;
+
+import ParcelTypes.Parcel;
+
 public class SameDayDelivery implements DeliveryService {
     public static final double MAX_CHARGEABLE_WEIGHT = 10.0;
 

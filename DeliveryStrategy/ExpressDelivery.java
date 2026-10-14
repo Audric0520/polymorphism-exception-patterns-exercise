@@ -1,12 +1,16 @@
-public class StandardDelivery implements DeliveryService {
+package DeliveryStrategy;
+
+import ParcelTypes.Parcel;
+
+public class ExpressDelivery implements DeliveryService {
     @Override
     public String getName() {
-        return "Standard";
+        return "Express";
     }
 
     @Override
     public double computeFee(double baseFee) {
-        return baseFee;
+        return baseFee * 1.5;
     }
 
     @Override

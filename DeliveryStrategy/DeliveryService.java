@@ -1,3 +1,7 @@
+package DeliveryStrategy;
+
+import ParcelTypes.Parcel;
+
 public interface DeliveryService {
     String getName();
 
