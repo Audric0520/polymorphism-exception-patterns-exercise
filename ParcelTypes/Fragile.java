@@ -1,6 +1,7 @@
 package ParcelTypes;
 
 import DeliveryStrategy.DeliveryService;
+import Exception.InvalidDataInputException;
 
 public class Fragile extends Box {
     public static final double MAX_WEIGHT = 30.0;
@@ -10,8 +11,15 @@ public class Fragile extends Box {
 
     public Fragile(String trackingNumber, String receiverName, double weight, int length, int width, int height,
             String handlingNote,
-            DeliveryService deliveryService) {
+            DeliveryService deliveryService) throws InvalidDataInputException {
         super(trackingNumber, receiverName, weight, MAX_WEIGHT, length, width, height, deliveryService);
+        setHandlingNote(handlingNote);
+    }
+
+    public void setHandlingNote(String handlingNote) throws InvalidDataInputException {
+        if (handlingNote.isBlank()) {
+            throw new InvalidDataInputException("Handling Note cannot be empty.");
+        }
         this.handlingNote = handlingNote.trim();
     }
 

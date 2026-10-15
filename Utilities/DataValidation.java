@@ -114,28 +114,13 @@ public class DataValidation {
         return measureNum;
     }
 
-    public static String validateCategoryInput(String prompt) { // TODO DELETE LETER
-        String category = "";
-        boolean validCategory = false;
-        do {
-            category = DataValidation.validateStringInput(prompt);
-            if (!(category.equalsIgnoreCase("clothing") || category.equalsIgnoreCase("electronics")
-                    || category.equalsIgnoreCase("entertainment"))) {
-                System.out.printf("Category '%s' does not exist!\n", category);
-                continue;
-            }
-            validCategory = true;
-        } while (!validCategory);
-        return category.toLowerCase();
-    }
-
     public static String validateTrackingNumberInput() {
         System.out.println("Tracking Number format: 'ABC' followed by 4 numbers (e.g. ABC0001)");
         boolean isRunning = true;
         String trackingNumber = "";
         while (isRunning) {
             trackingNumber = validateStringInput("Input Tracking Number: ");
-            if (!trackingNumber.matches("^ABC\\d{4}$")) {
+            if (!trackingNumber.matches("^(?i)abc\\d{4}$")) {
                 System.out.println(
                         "Invalid ID Input. Tracking Number must be 'ABC' followed by 4 numbers (e.g. ABC0927, ABC0520). Try Again.");
                 continue;
