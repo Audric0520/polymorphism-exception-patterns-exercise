@@ -18,7 +18,7 @@ public class Main {
 
         boolean isRunning = true;
         while (isRunning) {
-            System.out.println("--Parcel Delivery System--");
+            System.out.println("---------- Parcel Delivery System ----------");
             System.out.println("1. Add Parcel");
             System.out.println("2. View All Parcels");
             System.out.println("3. Change Delivery Service");
@@ -36,11 +36,12 @@ public class Main {
     }
 
     public static void addParcel() {
+        System.out.println("=".repeat(20));
         System.out.println("Parcel types:");
         System.out.println("1. Document");
         System.out.println("2. Box");
         System.out.println("3. Fragile");
-        int parcelType = DataValidation.validateNumberChoiceInput("Select parcel type: ", 1, 3);
+        int parcelType = DataValidation.validateNumberChoiceInput("Select parcel type(1-3): ", 1, 3);
         boolean duplicateExists = true;
         String trackingNumber = "";
         do {
@@ -58,7 +59,8 @@ public class Main {
             case 3 -> Fragile.MAX_WEIGHT;
             default -> 10;
         };
-        double weight = DataValidation.validateWeightInput("Enter weight in kg(max: " + maxWeight + "kg): ", maxWeight);
+        double weight = DataValidation.validateWeightInput("Enter weight in kg(min: 0.1kg, max: " + maxWeight + "kg): ",
+                maxWeight);
 
         Parcel parcel;
         DeliveryService initial = new StandardDelivery();
@@ -69,15 +71,15 @@ public class Main {
                     yield new Document(trackingNumber, receiverName, weight, pages, initial);
                 }
                 case 2 -> {
-                    int length = DataValidation.validateMeasurmentInput("Enter Length: ", "length");
-                    int width = DataValidation.validateMeasurmentInput("Enter Width: ", "width");
-                    int height = DataValidation.validateMeasurmentInput("Enter Height: ", "height");
+                    int length = DataValidation.validateMeasurmentInput("Enter Length", "length");
+                    int width = DataValidation.validateMeasurmentInput("Enter Width", "width");
+                    int height = DataValidation.validateMeasurmentInput("Enter Height", "height");
                     yield new Box(trackingNumber, receiverName, weight, length, width, height, initial);
                 }
                 case 3 -> {
-                    int length = DataValidation.validateMeasurmentInput("Enter Length: ", "length");
-                    int width = DataValidation.validateMeasurmentInput("Enter Width: ", "width");
-                    int height = DataValidation.validateMeasurmentInput("Enter Height: ", "height");
+                    int length = DataValidation.validateMeasurmentInput("Enter Length", "length");
+                    int width = DataValidation.validateMeasurmentInput("Enter Width", "width");
+                    int height = DataValidation.validateMeasurmentInput("Enter Height", "height");
                     String handlingNote = DataValidation.validateStringInput("Enter Handling Note: ");
                     yield new Fragile(trackingNumber, receiverName, weight, length, width, height, handlingNote,
                             initial);
@@ -112,7 +114,9 @@ public class Main {
             System.out.println("Cannot add parcel: " + e.getMessage());
             return;
         }
+        System.out.println("=".repeat(60));
         System.out.printf("Parcel added successfully! Delivery Fee: Php %,.2f\n", parcel.getDeliveryFee());
+        System.out.println("=".repeat(60));
     }
 
     public static void viewAllParcels() {// TODO IMPROVE DISPLAY
@@ -122,8 +126,11 @@ public class Main {
             return;
         }
         String displayFormat = "%-20s %-20s %-20s %-20.2f %-20s %-,20.2f %-20s\n";
+        System.out.println("\nALL PARCELS");
+        System.out.println("-".repeat(140));
         System.out.printf("%-20s %-20s %-20s %-20s %-20s %-20s %-20s\n", "TRACKING NUMBER", "PARCEL TYPE",
                 "NAME OF RECEIVER", "CHARGABLE WEIGHT", "SERVICE", "DELIVERY FEE", "STATUS");
+        System.out.println("-".repeat(140));
         for (Parcel parcel : parcels) {
             String receiverName = parcel.getReceiverName();
             if (receiverName.length() > 20) {
@@ -173,8 +180,9 @@ public class Main {
         } catch (InvalidParcelException e) {
             System.out.println("Invalid delivery service for the parcel.");
         }
-
+        System.out.println("=".repeat(60));
         System.out.printf("Delivery service changed! New fee: Php %,.2f\n", specificParcel.getDeliveryFee());
+        System.out.println("=".repeat(60));
     }
 
     public static void markAsDelivered() {
@@ -185,7 +193,7 @@ public class Main {
         }
         String trackingNumber = DataValidation.validateTrackingNumberInput();
         Parcel specificParcel = pms.findSpecificParcel(trackingNumber);
-
+        System.out.println("=".repeat(20));
         if (specificParcel == null) {
             System.out.println("Parcel not found!");
         } else if (specificParcel.isDelivered()) {
@@ -194,5 +202,6 @@ public class Main {
             specificParcel.markAsDelivered();
             System.out.println("Parcel delivered successfully!");
         }
+        System.out.println("=".repeat(20));
     }
 }

@@ -15,7 +15,7 @@ public abstract class Parcel {
         this.trackingNumber = trackingNumber;
         this.receiverName = receiverName;
         this.weight = weight;
-        this.status = status.PENDING;
+        this.status = Status.PENDING;
         this.deliveryService = deliveryService;
 
     }

@@ -91,7 +91,7 @@ public class DataValidation {
             }
             number = Double.parseDouble(inputNumber);
             if (number < 0.1 || number > maxWeight) {
-                System.out.printf("Invalid Weight Input. Weight must be between 0.1 - %.2f kg. Try Again.\n",
+                System.out.printf("Invalid Weight Input. Weight must be between 0.1kg - %.2f kg. Try Again.\n",
                         maxWeight);
                 continue;
             }
@@ -104,11 +104,12 @@ public class DataValidation {
         boolean isRunning = true;
         int measureNum = 0;
         while (isRunning) {
-            measureNum = validateIntInput(prompt);
-            if (measureNum > 0 & measureNum <= 100) {
+            measureNum = validateIntInput(prompt + "(10-100cm): ");
+            if (measureNum >= 10 & measureNum <= 100) {
                 isRunning = false;
             } else {
-                System.out.printf("Invalid %s input. Input should be between 1-100. Try Again.\n", typeOfMeasurement);
+                System.out.printf("Invalid %s input. Measurment should be between 10-100. Try Again.\n",
+                        typeOfMeasurement);
             }
         }
         return measureNum;
@@ -131,6 +132,7 @@ public class DataValidation {
     }
 
     public static DeliveryService validateDeliveryService() {
+        System.out.println("=".repeat(20));
         System.out.println("Delivery services:");
         System.out.println("1. Standard");
         System.out.println("2. Express");

@@ -2,7 +2,6 @@ package ParcelTypes;
 
 import DeliveryStrategy.DeliveryService;
 import Exception.InvalidDataInputException;
-import Utilities.DataValidation;
 
 public class Box extends Parcel {
     public static final double MAX_WEIGHT = 50.0;

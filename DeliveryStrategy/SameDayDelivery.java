@@ -22,6 +22,6 @@ public class SameDayDelivery implements DeliveryService {
 
     @Override
     public String getRejectionMessage() {
-        return "Same Day delivery is only for parcels up to 10 kg!";
+        return "Same Day delivery is only for parcels up to 10 kg! Choose a different delivery serivce";
     }
 }
