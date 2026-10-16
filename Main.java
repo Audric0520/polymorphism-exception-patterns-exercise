@@ -19,11 +19,11 @@ public class Main {
         boolean isRunning = true;
         while (isRunning) {
             System.out.println("---------- Parcel Delivery System ----------");
-            System.out.println("1. Add Parcel");
-            System.out.println("2. View All Parcels");
-            System.out.println("3. Change Delivery Service");
-            System.out.println("4. Mark as Delivered");
-            System.out.println("5. Exit Program");
+            System.out.println("[1] Add Parcel");
+            System.out.println("[2] View All Parcels");
+            System.out.println("[3] Change Delivery Service");
+            System.out.println("[4] Mark as Delivered");
+            System.out.println("[5] Exit Program");
             int choice = DataValidation.validateNumberChoiceInput("Choice(1-5): ", 1, 5);
             switch (choice) {
                 case 1 -> addParcel();
@@ -38,9 +38,9 @@ public class Main {
     public static void addParcel() {
         System.out.println("=".repeat(20));
         System.out.println("Parcel types:");
-        System.out.println("1. Document");
-        System.out.println("2. Box");
-        System.out.println("3. Fragile");
+        System.out.println("[1] Document");
+        System.out.println("[2] Box");
+        System.out.println("[3] Fragile");
         int parcelType = DataValidation.validateNumberChoiceInput("Select parcel type(1-3): ", 1, 3);
         boolean duplicateExists = true;
         String trackingNumber = "";

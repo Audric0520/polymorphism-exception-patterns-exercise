@@ -134,9 +134,9 @@ public class DataValidation {
     public static DeliveryService validateDeliveryService() {
         System.out.println("=".repeat(20));
         System.out.println("Delivery services:");
-        System.out.println("1. Standard");
-        System.out.println("2. Express");
-        System.out.println("3. Same Day");
+        System.out.println("[1] Standard");
+        System.out.println("[2] Express");
+        System.out.println("[3] Same Day");
         int choice = DataValidation.validateNumberChoiceInput("Select Delivery Service(1-3): ", 1, 3);
         return switch (choice) {
             case 1 -> new StandardDelivery();
