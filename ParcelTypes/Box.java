@@ -5,6 +5,7 @@ import Exception.InvalidDataInputException;
 import Exception.InvalidParcelException;
 
 public class Box extends Parcel {
+    public static final double MIN_WEIGHT = 0.1;
     public static final double MAX_WEIGHT = 50.0;
     public static final double RATE_PER_KILO = 40.0;
     private static final int VOLUMETRIC_DIVISOR = 3500;

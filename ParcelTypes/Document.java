@@ -5,6 +5,7 @@ import Exception.InvalidDataInputException;
 import Exception.InvalidParcelException;
 
 public class Document extends Parcel {
+    public static final double MIN_WEIGHT = 0.01;
     public static final double MAX_WEIGHT = 0.5;
     public static final int BASE_FEE = 50;
 

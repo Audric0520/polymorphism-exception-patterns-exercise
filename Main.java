@@ -55,13 +55,18 @@ public class Main {
             }
         } while (duplicateExists);
         String receiverName = DataValidation.validateReceiverNameInput("Enter Receiving Name: ").trim();
-
+        double minWeight = switch (parcelType) {
+            case 1 -> Document.MIN_WEIGHT;
+            case 2 -> Box.MIN_WEIGHT;
+            default -> Fragile.MIN_WEIGHT;
+        };
         double maxWeight = switch (parcelType) {// TODO ADD NEW MAX WEIGHT
             case 1 -> Document.MAX_WEIGHT;
             case 2 -> Box.MAX_WEIGHT;
             default -> Fragile.MAX_WEIGHT;
         };
-        double weight = DataValidation.validateWeightInput("Enter weight in kg(min: 0.1kg, max: " + maxWeight + "kg): ",
+        double weight = DataValidation.validateWeightInput(
+                String.format("Enter weight in kg (min: %.2fkg, max: %.2fkg): ", minWeight, maxWeight), minWeight,
                 maxWeight);
 
         Parcel parcel;
@@ -89,7 +94,7 @@ public class Main {
                 default -> throw new IllegalStateException("Unexpected parcel type: " + parcelType);
             };
         } catch (InvalidDataInputException | InvalidParcelException e) {
-            System.out.println("Cannot create parcel: ");
+            System.out.println("Cannot create parcel");
             return;
         }
         boolean deliveryServiceIsAllowed;
@@ -166,29 +171,21 @@ public class Main {
             System.out.println("Parcel already delivered!");
             return;
         }
-        DeliveryService newService;
-        boolean deliveryServiceIsAllowed = false;
-
-        do {
-            newService = DataValidation.validateDeliveryService();
-            if (newService.getClass() == specificParcel.getDeliveryService().getClass()) {
-                System.out.printf("Parcel already has a Delivery Service of %s. Choose again.\n",
-                        specificParcel.getDeliveryService().getName());
-                continue;
-            }
-            deliveryServiceIsAllowed = newService.isAllowed(specificParcel);
-
-            if (!deliveryServiceIsAllowed) {
-                System.out.println(newService.getRejectionMessage());
-            }
-        } while (!deliveryServiceIsAllowed);
+        DeliveryService newService = DataValidation.validateDeliveryService();
+        if (newService.getName().equals(specificParcel.getDeliveryService().getName())) {
+            System.out.printf("Parcel already uses %s delivery. No changes made.%n",
+                    specificParcel.getDeliveryService().getName());
+            return;
+        }
         try {
             specificParcel.setDeliveryService(newService);
         } catch (InvalidParcelException e) {
-            System.out.println("Invalid delivery service for the parcel.");
+            System.out.println(e.getMessage());
+            System.out.println("No changes made for delivery service.");
+            return;
         }
         System.out.println("=".repeat(60));
-        System.out.printf("Delivery service changed! New fee: Php %,.2f\n", specificParcel.getDeliveryFee());
+        System.out.printf("Delivery service changed! New fee: Php %,.2f%n", specificParcel.getDeliveryFee());
         System.out.println("=".repeat(60));
     }
 

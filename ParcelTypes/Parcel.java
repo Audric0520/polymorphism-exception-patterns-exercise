@@ -20,8 +20,8 @@ public abstract class Parcel {
         if (receiverName == null || receiverName.isBlank()) {
             throw new InvalidDataInputException("Receiver name cannot be empty.");
         }
-        if (!Double.isFinite(weight) || weight < 0.1) {
-            throw new InvalidDataInputException("Weight must be at least 0.1 kg.");
+        if (!Double.isFinite(weight)) {
+            throw new InvalidDataInputException("Invalid Weight.");
         }
         if (deliveryService == null) {
             throw new InvalidParcelException("A delivery service is required.");
