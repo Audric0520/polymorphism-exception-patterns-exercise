@@ -24,8 +24,8 @@ public class Box extends Parcel {
             throws InvalidDataInputException, InvalidParcelException {
         super(trackingNumber, receiverName, weight, service);
 
-        if (weight > maxWeight) {
-            throw new InvalidDataInputException("Weight cannot exceed " + maxWeight + " kg.");
+        if (weight < MIN_WEIGHT || weight > maxWeight) {
+            throw new InvalidDataInputException("Weight must be between " + MIN_WEIGHT + " and " + maxWeight + " kg.");
         }
         setLength(length);
         setWidth(width);

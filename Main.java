@@ -54,7 +54,7 @@ public class Main {
                 System.out.printf("Parcel with Tracking number %s already exists. Try Again\n", trackingNumber);
             }
         } while (duplicateExists);
-        String receiverName = DataValidation.validateReceiverNameInput("Enter Receiving Name: ").trim();
+        String receiverName = DataValidation.validateReceiverNameInput("Enter Receiver Name: ").trim();
         double minWeight = switch (parcelType) {
             case 1 -> Document.MIN_WEIGHT;
             case 2 -> Box.MIN_WEIGHT;
@@ -78,15 +78,15 @@ public class Main {
                     yield new Document(trackingNumber, receiverName, weight, pages, initial);
                 }
                 case 2 -> {
-                    int length = DataValidation.validateMeasurmentInput("Enter Length", "length");
-                    int width = DataValidation.validateMeasurmentInput("Enter Width", "width");
-                    int height = DataValidation.validateMeasurmentInput("Enter Height", "height");
+                    int length = DataValidation.validateMeasurementInput("Enter Length", "length");
+                    int width = DataValidation.validateMeasurementInput("Enter Width", "width");
+                    int height = DataValidation.validateMeasurementInput("Enter Height", "height");
                     yield new Box(trackingNumber, receiverName, weight, length, width, height, initial);
                 }
                 case 3 -> {
-                    int length = DataValidation.validateMeasurmentInput("Enter Length", "length");
-                    int width = DataValidation.validateMeasurmentInput("Enter Width", "width");
-                    int height = DataValidation.validateMeasurmentInput("Enter Height", "height");
+                    int length = DataValidation.validateMeasurementInput("Enter Length", "length");
+                    int width = DataValidation.validateMeasurementInput("Enter Width", "width");
+                    int height = DataValidation.validateMeasurementInput("Enter Height", "height");
                     String handlingNote = DataValidation.validateStringInput("Enter Handling Note: ");
                     yield new Fragile(trackingNumber, receiverName, weight, length, width, height, handlingNote,
                             initial);
@@ -112,7 +112,8 @@ public class Main {
         try {
             parcel.setDeliveryService(ds);
         } catch (InvalidParcelException e) {
-            System.out.println("Invalid delivery service for the parcel.");
+            System.out.println("Cannot set delivery service: " + e.getMessage());
+            return;
         }
 
         try {
@@ -218,7 +219,7 @@ public class Main {
         System.out.println("Tracking Number: " + parcel.getTrackingNumber());
         System.out.println("Parcel Type: " + parcel.getType());
         System.out.println("Receiver Name: " + parcel.getReceiverName());
-        System.out.println("Chargeable Weight: " + parcel.getChargeableWeight() + "kg");
+        System.out.printf("Chargeable Weight: %.2f kg%n", parcel.getChargeableWeight());
         System.out.println("Delivery Service: " + parcel.getDeliveryService().getName());
         System.out.print("\nAdditional Information: \n" + parcel.getAdditionalInformation());
     }

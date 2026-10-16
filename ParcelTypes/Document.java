@@ -14,8 +14,8 @@ public class Document extends Parcel {
     public Document(String trackingNumber, String receiverName, double weight, int numOfPages,
             DeliveryService deliveryService) throws InvalidDataInputException, InvalidParcelException {
         super(trackingNumber, receiverName, weight, deliveryService);
-        if (weight > MAX_WEIGHT) {
-            throw new InvalidDataInputException("Weight cannot exceed " + MAX_WEIGHT + " kg.");
+        if (weight < MIN_WEIGHT || weight > MAX_WEIGHT) {
+            throw new InvalidDataInputException("Weight must be between " + MIN_WEIGHT + " and " + MAX_WEIGHT + " kg.");
         }
         setNumOfPages(numOfPages);
     }
