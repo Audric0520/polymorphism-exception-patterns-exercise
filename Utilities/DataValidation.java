@@ -67,7 +67,7 @@ public class DataValidation {
         while (isRunning) {
             name = DataValidation.validateStringInput(prompt);
             if (!name.matches("^[a-zA-Z ]+$")) {
-                System.out.println("Invalid ReceiverName Input. Name must only contains letters. Try Again.");
+                System.out.println("Invalid Receiver Name Input. Name must only contains letters. Try Again.");
                 continue;
             } else {
                 isRunning = false;

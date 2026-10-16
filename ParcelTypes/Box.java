@@ -31,6 +31,10 @@ public class Box extends Parcel {
         setHeight(height);
     }
 
+    public int getLength() {
+        return length;
+    }
+
     public void setLength(int length) throws InvalidDataInputException {
         if (!(length > 0)) {
             throw new InvalidDataInputException("Length must be greater than 0.");
@@ -38,11 +42,19 @@ public class Box extends Parcel {
         this.length = length;
     }
 
+    public int getWidth() {
+        return width;
+    }
+
     public void setWidth(int width) throws InvalidDataInputException {
         if (!(width > 0)) {
             throw new InvalidDataInputException("Width must be greater than 0.");
         }
         this.width = width;
+    }
+
+    public int getHeight() {
+        return height;
     }
 
     public void setHeight(int height) throws InvalidDataInputException {
@@ -69,5 +81,10 @@ public class Box extends Parcel {
     @Override
     public double getBaseFee() {
         return RATE_PER_KILO * getChargeableWeight();
+    }
+
+    @Override
+    public String getAdditionalInformation() {
+        return String.format("Length: %d\nWidth: %d\nHeight: %d\n", getLength(), getWidth(), getHeight());
     }
 }

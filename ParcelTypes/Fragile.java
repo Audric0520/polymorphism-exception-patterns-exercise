@@ -37,4 +37,10 @@ public class Fragile extends Box {
     public String getType() {
         return "Fragile";
     }
+
+    @Override
+    public String getAdditionalInformation() {
+        return String.format("Length: %d\nWidth: %d\nHeight: %d\nHandling Note: %s\n",
+                getLength(), getWidth(), getHeight(), getHandlingNote());
+    }
 }

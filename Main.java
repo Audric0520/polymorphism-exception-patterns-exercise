@@ -33,6 +33,9 @@ public class Main {
                 case 5 -> isRunning = false;
             }
         }
+        System.out.println("-".repeat(40));
+        System.out.println("Thank you for using the program.\nExiting...");
+        System.out.println("-".repeat(40));
     }
 
     public static void addParcel() {
@@ -113,6 +116,7 @@ public class Main {
             System.out.println("Cannot add parcel: " + e.getMessage());
             return;
         }
+        displayParcel(parcel);
         System.out.println("=".repeat(60));
         System.out.printf("Parcel added successfully! Delivery Fee: Php %,.2f\n", parcel.getDeliveryFee());
         System.out.println("=".repeat(60));
@@ -121,14 +125,16 @@ public class Main {
     public static void viewAllParcels() {// TODO IMPROVE DISPLAY
         ArrayList<Parcel> parcels = pms.getAllParcels();
         if (parcels.isEmpty()) {
+            System.out.println("-".repeat(40));
             System.out.println("There are no parcels to display.");
+            System.out.println("-".repeat(40));
             return;
         }
-        String displayFormat = "%-20s %-20s %-20s %-20.2f %-20s %-,20.2f %-20s\n";
+        String displayFormat = "%-20s %-20s %-20s %-20s %-20s %-,20.2f %-20s\n";
         System.out.println("\nALL PARCELS");
         System.out.println("-".repeat(140));
         System.out.printf("%-20s %-20s %-20s %-20s %-20s %-20s %-20s\n", "TRACKING NUMBER", "PARCEL TYPE",
-                "NAME OF RECEIVER", "CHARGABLE WEIGHT", "SERVICE", "DELIVERY FEE", "STATUS");
+                "RECEIVER NAME", "CHARGEABLE WEIGHT", "DELIVERY SERVICE", "DELIVERY FEE", "STATUS");
         System.out.println("-".repeat(140));
         for (Parcel parcel : parcels) {
             String receiverName = parcel.getReceiverName();
@@ -136,15 +142,17 @@ public class Main {
                 receiverName = receiverName.substring(0, 17) + "...";
             }
             System.out.printf(displayFormat, parcel.getTrackingNumber(), parcel.getType(), receiverName,
-                    parcel.getChargeableWeight(), parcel.getDeliveryService().getName(), parcel.getDeliveryFee(),
-                    parcel.getStatus().toString());
+                    String.format("%.2f kg", parcel.getChargeableWeight()), parcel.getDeliveryService().getName(),
+                    parcel.getDeliveryFee(), parcel.getStatus().toString());
         }
     }
 
     public static void changeDeliveryService() { // TODO REVIEW AND ADJUST OUTPUT DISPLAYS
         ArrayList<Parcel> parcels = pms.getAllParcels();
         if (parcels.isEmpty()) {
+            System.out.println("-".repeat(40));
             System.out.println("There are no parcels to change delivery service.");
+            System.out.println("-".repeat(40));
             return;
         }
         String trackingNumber = DataValidation.validateTrackingNumberInput();
@@ -187,7 +195,9 @@ public class Main {
     public static void markAsDelivered() {
         ArrayList<Parcel> parcels = pms.getAllParcels();
         if (parcels.isEmpty()) {
+            System.out.println("-".repeat(40));
             System.out.println("There are no parcels to mark as delivered.");
+            System.out.println("-".repeat(40));
             return;
         }
         String trackingNumber = DataValidation.validateTrackingNumberInput();
@@ -202,5 +212,17 @@ public class Main {
             System.out.println("Parcel delivered successfully!");
         }
         System.out.println("=".repeat(20));
+    }
+
+    public static void displayParcel(Parcel parcel) {
+        System.out.println("-".repeat(40));
+        System.out.println("PARCEL INFORMATION");
+        System.out.println("-".repeat(40));
+        System.out.println("Tracking Number: " + parcel.getTrackingNumber());
+        System.out.println("Parcel Type: " + parcel.getType());
+        System.out.println("Receiver Name: " + parcel.getReceiverName());
+        System.out.println("Chargeable Weight: " + parcel.getChargeableWeight() + "kg");
+        System.out.println("Delivery Service: " + parcel.getDeliveryService().getName());
+        System.out.print("\nAdditional Information: \n" + parcel.getAdditionalInformation());
     }
 }

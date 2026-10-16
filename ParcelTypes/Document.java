@@ -41,6 +41,11 @@ public class Document extends Parcel {
         return BASE_FEE;
     }
 
+    @Override
+    public String getAdditionalInformation() {
+        return String.format("Number of Pages: %d\n", getNumOfPages());
+    }
+
     public int getNumOfPages() {
         return numOfPages;
     }

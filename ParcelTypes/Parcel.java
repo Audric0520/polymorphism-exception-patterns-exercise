@@ -77,6 +77,8 @@ public abstract class Parcel {
         this.status = Status.DELIVERED;
     }
 
+    public abstract String getAdditionalInformation();
+
     public abstract String getType();
 
     public abstract double getChargeableWeight();
