@@ -2,6 +2,7 @@ package ParcelTypes;
 
 import DeliveryStrategy.DeliveryService;
 import Exception.InvalidDataInputException;
+import Exception.InvalidParcelException;
 
 public class Box extends Parcel {
     public static final double MAX_WEIGHT = 50.0;
@@ -13,14 +14,18 @@ public class Box extends Parcel {
     private int height;
 
     public Box(String trackingNumber, String receiverName, double weight, int length, int width, int height,
-            DeliveryService deliveryService) throws InvalidDataInputException {
+            DeliveryService deliveryService) throws InvalidDataInputException, InvalidParcelException {
         this(trackingNumber, receiverName, weight, MAX_WEIGHT, length, width, height, deliveryService);
     }
 
     protected Box(String trackingNumber, String receiverName, double weight, double maxWeight,
-            int length, int width, int height, DeliveryService service) throws InvalidDataInputException {
+            int length, int width, int height, DeliveryService service)
+            throws InvalidDataInputException, InvalidParcelException {
         super(trackingNumber, receiverName, weight, service);
 
+        if (weight > maxWeight) {
+            throw new InvalidDataInputException("Weight cannot exceed " + maxWeight + " kg.");
+        }
         setLength(length);
         setWidth(width);
         setHeight(height);

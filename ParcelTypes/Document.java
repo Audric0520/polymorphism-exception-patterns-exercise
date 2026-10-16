@@ -2,6 +2,7 @@ package ParcelTypes;
 
 import DeliveryStrategy.DeliveryService;
 import Exception.InvalidDataInputException;
+import Exception.InvalidParcelException;
 
 public class Document extends Parcel {
     public static final double MAX_WEIGHT = 0.5;
@@ -10,8 +11,11 @@ public class Document extends Parcel {
     private int numOfPages;
 
     public Document(String trackingNumber, String receiverName, double weight, int numOfPages,
-            DeliveryService deliveryService) throws InvalidDataInputException {
+            DeliveryService deliveryService) throws InvalidDataInputException, InvalidParcelException {
         super(trackingNumber, receiverName, weight, deliveryService);
+        if (weight > MAX_WEIGHT) {
+            throw new InvalidDataInputException("Weight cannot exceed " + MAX_WEIGHT + " kg.");
+        }
         setNumOfPages(numOfPages);
     }
 

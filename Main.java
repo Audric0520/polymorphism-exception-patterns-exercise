@@ -56,8 +56,7 @@ public class Main {
         double maxWeight = switch (parcelType) {// TODO ADD NEW MAX WEIGHT
             case 1 -> Document.MAX_WEIGHT;
             case 2 -> Box.MAX_WEIGHT;
-            case 3 -> Fragile.MAX_WEIGHT;
-            default -> 10;
+            default -> Fragile.MAX_WEIGHT;
         };
         double weight = DataValidation.validateWeightInput("Enter weight in kg(min: 0.1kg, max: " + maxWeight + "kg): ",
                 maxWeight);
@@ -86,8 +85,8 @@ public class Main {
                 }
                 default -> throw new IllegalStateException("Unexpected parcel type: " + parcelType);
             };
-        } catch (InvalidDataInputException e) {
-            System.out.println("Cannot create parcel: " + e.getMessage());
+        } catch (InvalidDataInputException | InvalidParcelException e) {
+            System.out.println("Cannot create parcel: ");
             return;
         }
         boolean deliveryServiceIsAllowed;
