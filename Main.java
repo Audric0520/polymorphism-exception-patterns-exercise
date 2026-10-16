@@ -136,7 +136,7 @@ public class Main {
             System.out.println("-".repeat(40));
             return;
         }
-        String displayFormat = "%-20s %-20s %-20s %-20s %-20s %-,20.2f %-20s\n";
+        String displayFormat = "%-20s %-20s %-20s %-20s %-20s %-20s %-20s\n";
         System.out.println("\nALL PARCELS");
         System.out.println("-".repeat(140));
         System.out.printf("%-20s %-20s %-20s %-20s %-20s %-20s %-20s\n", "TRACKING NUMBER", "PARCEL TYPE",
@@ -149,7 +149,7 @@ public class Main {
             }
             System.out.printf(displayFormat, parcel.getTrackingNumber(), parcel.getType(), receiverName,
                     String.format("%.2f kg", parcel.getChargeableWeight()), parcel.getDeliveryService().getName(),
-                    parcel.getDeliveryFee(), parcel.getStatus().toString());
+                    String.format("Php %,.2f", parcel.getDeliveryFee()), parcel.getStatus().toString());
         }
     }
 
@@ -165,11 +165,15 @@ public class Main {
         Parcel specificParcel = pms.findSpecificParcel(trackingNumber);
 
         if (specificParcel == null) {
+            System.out.println("=".repeat(20));
             System.out.println("Parcel not found!");
+            System.out.println("=".repeat(20));
             return;
         }
         if (specificParcel.isDelivered()) {
+            System.out.println("=".repeat(20));
             System.out.println("Parcel already delivered!");
+            System.out.println("=".repeat(20));
             return;
         }
         DeliveryService newService = DataValidation.validateDeliveryService();
