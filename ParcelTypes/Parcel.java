@@ -1,6 +1,7 @@
 package ParcelTypes;
 
 import DeliveryStrategy.DeliveryService;
+import Exception.InvalidDataInputException;
 import Exception.InvalidParcelException;
 import Utilities.Status;
 
@@ -11,9 +12,23 @@ public abstract class Parcel {
     private Status status;
     private DeliveryService deliveryService;
 
-    public Parcel(String trackingNumber, String receiverName, double weight, DeliveryService deliveryService) {
+    public Parcel(String trackingNumber, String receiverName, double weight, DeliveryService deliveryService)
+            throws InvalidDataInputException, InvalidParcelException {
+        if (trackingNumber == null || !trackingNumber.matches("^ABC\\d{4}$")) {
+            throw new InvalidDataInputException("Tracking number cannot be empty.");
+        }
+        if (receiverName == null || !receiverName.trim().matches("^\\p{L}[\\p{L} .'-]*$")) {
+            throw new InvalidDataInputException("Receiver name cannot be empty.");
+        }
+        if (!Double.isFinite(weight)) {
+            throw new InvalidDataInputException("Invalid Weight.");
+        }
+        if (deliveryService == null) {
+            throw new InvalidParcelException("A delivery service is required.");
+        }
+
         this.trackingNumber = trackingNumber;
-        this.receiverName = receiverName;
+        this.receiverName = receiverName.trim().replaceAll("\\s+", " ");
         this.weight = weight;
         this.status = Status.PENDING;
         this.deliveryService = deliveryService;
@@ -61,6 +76,8 @@ public abstract class Parcel {
     public void markAsDelivered() {
         this.status = Status.DELIVERED;
     }
+
+    public abstract String getAdditionalInformation();
 
     public abstract String getType();
 

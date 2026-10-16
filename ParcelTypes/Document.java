@@ -2,16 +2,21 @@ package ParcelTypes;
 
 import DeliveryStrategy.DeliveryService;
 import Exception.InvalidDataInputException;
+import Exception.InvalidParcelException;
 
 public class Document extends Parcel {
+    public static final double MIN_WEIGHT = 0.01;
     public static final double MAX_WEIGHT = 0.5;
     public static final int BASE_FEE = 50;
 
     private int numOfPages;
 
     public Document(String trackingNumber, String receiverName, double weight, int numOfPages,
-            DeliveryService deliveryService) throws InvalidDataInputException {
+            DeliveryService deliveryService) throws InvalidDataInputException, InvalidParcelException {
         super(trackingNumber, receiverName, weight, deliveryService);
+        if (weight < MIN_WEIGHT || weight > MAX_WEIGHT) {
+            throw new InvalidDataInputException("Weight must be between " + MIN_WEIGHT + " and " + MAX_WEIGHT + " kg.");
+        }
         setNumOfPages(numOfPages);
     }
 
@@ -35,6 +40,11 @@ public class Document extends Parcel {
     @Override
     public double getBaseFee() {
         return BASE_FEE;
+    }
+
+    @Override
+    public String getAdditionalInformation() {
+        return String.format("Number of Pages: %d\n", getNumOfPages());
     }
 
     public int getNumOfPages() {

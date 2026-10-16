@@ -18,7 +18,7 @@ public class DataValidation {
             System.out.print(prompt);
             inputNumber = input.nextLine().trim();
             if (!inputNumber.matches("-?(0|[1-9]\\d*)")) {
-                System.out.println("Invalid Input. Only input positive integers without leading zeros. Try Again.");
+                System.out.println("Invalid Input. Only input positive integers without leading zeroes. Try Again.");
                 continue;
             }
             try {
@@ -37,10 +37,10 @@ public class DataValidation {
         int number = 0;
         while (isRunning) {
             number = validateIntInput(prompt);
-            if (number >= min & number <= max) {
+            if (number >= min && number <= max) {
                 isRunning = false;
             } else {
-                System.out.printf("Invalid Input. Only input %d-%d without leading zeros. Try Again.\n", min, max);
+                System.out.printf("Invalid Input. Only input %d-%d without leading zeroes. Try Again.\n", min, max);
             }
         }
         return number;
@@ -65,18 +65,18 @@ public class DataValidation {
         boolean isRunning = true;
         String name = "";
         while (isRunning) {
-            name = DataValidation.validateStringInput(prompt);
-            if (!name.matches("^[a-zA-Z ]+$")) {
-                System.out.println("Invalid ReceiverName Input. Name must only contains letters. Try Again.");
-                continue;
-            } else {
+            name = validateStringInput(prompt);
+            if (name.matches("^\\p{L}[\\p{L} .'-]*$")) {
                 isRunning = false;
+            } else {
+                System.out.println(
+                        "Invalid Receiver Name. Use letters, spaces, hyphens, apostrophes or periods. Try Again.");
             }
         }
-        return name;
+        return name.replaceAll("\\s+", " ");
     }
 
-    public static double validateWeightInput(String prompt, double maxWeight) {
+    public static double validateWeightInput(String prompt, double minWeight, double maxWeight) {
         boolean isRunning = true;
         double number = 0;
         String inputNumber = "";
@@ -90,9 +90,9 @@ public class DataValidation {
                 continue;
             }
             number = Double.parseDouble(inputNumber);
-            if (number < 0.1 || number > maxWeight) {
-                System.out.printf("Invalid Weight Input. Weight must be between 0.1kg - %.2f kg. Try Again.\n",
-                        maxWeight);
+            if (number < minWeight || number > maxWeight) {
+                System.out.printf("Invalid Weight Input. Weight must be between %.2f kg - %.2f kg. Try Again.\n",
+                        minWeight, maxWeight);
                 continue;
             }
             isRunning = false;
@@ -100,15 +100,15 @@ public class DataValidation {
         return number;
     }
 
-    public static int validateMeasurmentInput(String prompt, String typeOfMeasurement) {
+    public static int validateMeasurementInput(String prompt, String typeOfMeasurement) {
         boolean isRunning = true;
         int measureNum = 0;
         while (isRunning) {
             measureNum = validateIntInput(prompt + "(10-100cm): ");
-            if (measureNum >= 10 & measureNum <= 100) {
+            if (measureNum >= 10 && measureNum <= 100) {
                 isRunning = false;
             } else {
-                System.out.printf("Invalid %s input. Measurment should be between 10-100. Try Again.\n",
+                System.out.printf("Invalid %s input. Measurement should be between 10-100. Try Again.\n",
                         typeOfMeasurement);
             }
         }

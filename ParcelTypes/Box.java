@@ -2,8 +2,10 @@ package ParcelTypes;
 
 import DeliveryStrategy.DeliveryService;
 import Exception.InvalidDataInputException;
+import Exception.InvalidParcelException;
 
 public class Box extends Parcel {
+    public static final double MIN_WEIGHT = 0.1;
     public static final double MAX_WEIGHT = 50.0;
     public static final double RATE_PER_KILO = 40.0;
     private static final int VOLUMETRIC_DIVISOR = 3500;
@@ -13,17 +15,25 @@ public class Box extends Parcel {
     private int height;
 
     public Box(String trackingNumber, String receiverName, double weight, int length, int width, int height,
-            DeliveryService deliveryService) throws InvalidDataInputException {
+            DeliveryService deliveryService) throws InvalidDataInputException, InvalidParcelException {
         this(trackingNumber, receiverName, weight, MAX_WEIGHT, length, width, height, deliveryService);
     }
 
     protected Box(String trackingNumber, String receiverName, double weight, double maxWeight,
-            int length, int width, int height, DeliveryService service) throws InvalidDataInputException {
+            int length, int width, int height, DeliveryService service)
+            throws InvalidDataInputException, InvalidParcelException {
         super(trackingNumber, receiverName, weight, service);
 
+        if (weight < MIN_WEIGHT || weight > maxWeight) {
+            throw new InvalidDataInputException("Weight must be between " + MIN_WEIGHT + " and " + maxWeight + " kg.");
+        }
         setLength(length);
         setWidth(width);
         setHeight(height);
+    }
+
+    public int getLength() {
+        return length;
     }
 
     public void setLength(int length) throws InvalidDataInputException {
@@ -33,11 +43,19 @@ public class Box extends Parcel {
         this.length = length;
     }
 
+    public int getWidth() {
+        return width;
+    }
+
     public void setWidth(int width) throws InvalidDataInputException {
         if (!(width > 0)) {
             throw new InvalidDataInputException("Width must be greater than 0.");
         }
         this.width = width;
+    }
+
+    public int getHeight() {
+        return height;
     }
 
     public void setHeight(int height) throws InvalidDataInputException {
@@ -64,5 +82,10 @@ public class Box extends Parcel {
     @Override
     public double getBaseFee() {
         return RATE_PER_KILO * getChargeableWeight();
+    }
+
+    @Override
+    public String getAdditionalInformation() {
+        return String.format("Length: %d\nWidth: %d\nHeight: %d\n", getLength(), getWidth(), getHeight());
     }
 }
