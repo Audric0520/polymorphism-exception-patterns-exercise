@@ -91,7 +91,7 @@ public class DataValidation {
             }
             number = Double.parseDouble(inputNumber);
             if (number < 0.1 || number > maxWeight) {
-                System.out.printf("Invalid Weight Input. Weight must be between 0.1 - %.2f kg. Try Again.\n",
+                System.out.printf("Invalid Weight Input. Weight must be between 0.1kg - %.2f kg. Try Again.\n",
                         maxWeight);
                 continue;
             }
@@ -104,29 +104,15 @@ public class DataValidation {
         boolean isRunning = true;
         int measureNum = 0;
         while (isRunning) {
-            measureNum = validateIntInput(prompt);
-            if (measureNum > 0 & measureNum <= 100) {
+            measureNum = validateIntInput(prompt + "(10-100cm): ");
+            if (measureNum >= 10 & measureNum <= 100) {
                 isRunning = false;
             } else {
-                System.out.printf("Invalid %s input. Input should be between 1-100. Try Again.\n", typeOfMeasurement);
+                System.out.printf("Invalid %s input. Measurment should be between 10-100. Try Again.\n",
+                        typeOfMeasurement);
             }
         }
         return measureNum;
-    }
-
-    public static String validateCategoryInput(String prompt) { // TODO DELETE LETER
-        String category = "";
-        boolean validCategory = false;
-        do {
-            category = DataValidation.validateStringInput(prompt);
-            if (!(category.equalsIgnoreCase("clothing") || category.equalsIgnoreCase("electronics")
-                    || category.equalsIgnoreCase("entertainment"))) {
-                System.out.printf("Category '%s' does not exist!\n", category);
-                continue;
-            }
-            validCategory = true;
-        } while (!validCategory);
-        return category.toLowerCase();
     }
 
     public static String validateTrackingNumberInput() {
@@ -135,7 +121,7 @@ public class DataValidation {
         String trackingNumber = "";
         while (isRunning) {
             trackingNumber = validateStringInput("Input Tracking Number: ");
-            if (!trackingNumber.matches("^ABC\\d{4}$")) {
+            if (!trackingNumber.matches("^(?i)abc\\d{4}$")) {
                 System.out.println(
                         "Invalid ID Input. Tracking Number must be 'ABC' followed by 4 numbers (e.g. ABC0927, ABC0520). Try Again.");
                 continue;
@@ -146,10 +132,11 @@ public class DataValidation {
     }
 
     public static DeliveryService validateDeliveryService() {
+        System.out.println("=".repeat(20));
         System.out.println("Delivery services:");
-        System.out.println("1. Standard");
-        System.out.println("2. Express");
-        System.out.println("3. Same Day");
+        System.out.println("[1] Standard");
+        System.out.println("[2] Express");
+        System.out.println("[3] Same Day");
         int choice = DataValidation.validateNumberChoiceInput("Select Delivery Service(1-3): ", 1, 3);
         return switch (choice) {
             case 1 -> new StandardDelivery();

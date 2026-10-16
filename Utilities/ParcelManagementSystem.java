@@ -2,6 +2,7 @@ package Utilities;
 
 import java.util.ArrayList;
 
+import Exception.InvalidParcelException;
 import ParcelTypes.Parcel;
 
 public class ParcelManagementSystem {
@@ -16,7 +17,13 @@ public class ParcelManagementSystem {
         return INSTANCE;
     }
 
-    public void addParcel(Parcel parcel) {
+    public void addParcel(Parcel parcel) throws InvalidParcelException {
+        if (parcel == null) {
+            throw new InvalidParcelException("Parcel cannot be null.");
+        }
+        if (findDuplicateParcel(parcel.getTrackingNumber())) {
+            throw new InvalidParcelException("Parcel with this tracking number already exists.");
+        }
         parcels.add(parcel);
     }
 

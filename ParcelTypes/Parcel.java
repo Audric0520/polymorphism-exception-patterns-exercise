@@ -1,6 +1,7 @@
 package ParcelTypes;
 
 import DeliveryStrategy.DeliveryService;
+import Exception.InvalidParcelException;
 import Utilities.Status;
 
 public abstract class Parcel {
@@ -14,7 +15,7 @@ public abstract class Parcel {
         this.trackingNumber = trackingNumber;
         this.receiverName = receiverName;
         this.weight = weight;
-        this.status = status.PENDING;
+        this.status = Status.PENDING;
         this.deliveryService = deliveryService;
 
     }
@@ -43,7 +44,13 @@ public abstract class Parcel {
         return deliveryService;
     }
 
-    public void setDeliveryService(DeliveryService deliveryService) {
+    public void setDeliveryService(DeliveryService deliveryService) throws InvalidParcelException {
+        if (deliveryService == null) {
+            throw new InvalidParcelException("A delivery service is required.");
+        }
+        if (!deliveryService.isAllowed(this)) {
+            throw new InvalidParcelException(deliveryService.getRejectionMessage());
+        }
         this.deliveryService = deliveryService;
     }
 
