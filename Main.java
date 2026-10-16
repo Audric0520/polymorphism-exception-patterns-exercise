@@ -60,7 +60,7 @@ public class Main {
             case 2 -> Box.MIN_WEIGHT;
             default -> Fragile.MIN_WEIGHT;
         };
-        double maxWeight = switch (parcelType) {// TODO ADD NEW MAX WEIGHT
+        double maxWeight = switch (parcelType) {
             case 1 -> Document.MAX_WEIGHT;
             case 2 -> Box.MAX_WEIGHT;
             default -> Fragile.MAX_WEIGHT;
@@ -94,7 +94,7 @@ public class Main {
                 default -> throw new IllegalStateException("Unexpected parcel type: " + parcelType);
             };
         } catch (InvalidDataInputException | InvalidParcelException e) {
-            System.out.println("Cannot create parcel");
+            System.out.println("Cannot create parcel." + e.getMessage());
             return;
         }
         boolean deliveryServiceIsAllowed;
@@ -128,7 +128,7 @@ public class Main {
         System.out.println("=".repeat(60));
     }
 
-    public static void viewAllParcels() {// TODO IMPROVE DISPLAY
+    public static void viewAllParcels() {
         ArrayList<Parcel> parcels = pms.getAllParcels();
         if (parcels.isEmpty()) {
             System.out.println("-".repeat(40));
@@ -153,7 +153,7 @@ public class Main {
         }
     }
 
-    public static void changeDeliveryService() { // TODO REVIEW AND ADJUST OUTPUT DISPLAYS
+    public static void changeDeliveryService() {
         ArrayList<Parcel> parcels = pms.getAllParcels();
         if (parcels.isEmpty()) {
             System.out.println("-".repeat(40));

@@ -15,10 +15,12 @@ public abstract class Parcel {
     public Parcel(String trackingNumber, String receiverName, double weight, DeliveryService deliveryService)
             throws InvalidDataInputException, InvalidParcelException {
         if (trackingNumber == null || !trackingNumber.matches("^ABC\\d{4}$")) {
-            throw new InvalidDataInputException("Tracking number cannot be empty.");
+            throw new InvalidDataInputException(
+                    "Invalid Tracking Number. Tracking number must be 'ABC' followed by 4 digits.");
         }
         if (receiverName == null || !receiverName.trim().matches("^\\p{L}[\\p{L} .'-]*$")) {
-            throw new InvalidDataInputException("Receiver name cannot be empty.");
+            throw new InvalidDataInputException(
+                    "Invalid Receiver Name. It must start with a letter and use only letters, spaces, hyphens, apostrophes or periods.");
         }
         if (!Double.isFinite(weight)) {
             throw new InvalidDataInputException("Invalid Weight.");
